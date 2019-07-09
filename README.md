@@ -23,3 +23,7 @@
 ### Melhorias
 * Work offline
 * Use workmanager to fetch data
+
+## References:
+https://medium.com/@tonyowen/android-kotlin-coroutines-unit-test-16e984ba35b4
+https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews-and-RecyclerView
