@@ -35,10 +35,12 @@ class ArticlesFeedFragment : Fragment() {
 
         viewModel.liveData.observe(this) {
             when(it){
-                is Command.HideLoading -> hideLoading()
                 is Command.ShowLoading -> showLoading()
                 is Command.ShowErrorView -> showErrorView()
-                is Command.ShowArticles -> adapter?.submitList(it.articles)
+                is Command.ShowArticles -> {
+                    hideLoading()
+                    adapter?.submitList(it.articles)
+                }
             }
         }
 

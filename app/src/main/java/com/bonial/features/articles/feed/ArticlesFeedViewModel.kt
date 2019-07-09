@@ -29,8 +29,6 @@ class ArticlesFeedViewModel(private val useCase: ArticlesUseCase): ViewModel(){
                 articles.addAll(response.articles)
                 _liveData.value = Command.ShowArticles(articles)
             }
-
-            _liveData.value = Command.HideLoading
         }
     }
 
