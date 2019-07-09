@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bonial News App</string>
+    <string name="source_placeholder">From: %s</string>
+
+    <string name="oops_something_wrong">Oops, something went wrong</string>
+    <string name="error_network_error_message">Check your internet and</string>
+    <string name="error_view_error_touch_here_to_try_again">touch here to try again</string>
+</resources>

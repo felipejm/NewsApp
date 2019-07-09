@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/articlesFeedActivity">
+
+    <fragment
+        android:id="@+id/articlesFeedActivity"
+        android:name="com.bonial.features.articles.feed.ArticlesFeedFragment"
+        android:label="ArticlesFeedActivity" >
+        <action
+            android:id="@+id/openDetail"
+            app:destination="@+id/articleDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleDetailFragment"
+        android:name="com.bonial.features.articles.detail.ArticleDetailFragment"
+        android:label="ArticleDetailFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.bonial.features.articles.model.Article" />
+    </fragment>
+</navigation>
