@@ -22,7 +22,7 @@ class ArticlesFeedViewModel(private val useCase: ArticlesUseCase): ViewModel(){
 
     fun fetchArticles(page: Int = 1){
         viewModelScope.launch(errorHandler) {
-            _liveData.value = Command.ShowLoading
+            if(articles.isEmpty()) _liveData.value = Command.ShowLoading
 
             val response = useCase.fetchHeadLines(page, PAGE_SIZE)
             if(response.totalResults > 0) {
