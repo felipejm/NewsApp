@@ -16,6 +16,7 @@
 * Okhttp
 * Glide
 * Espresso
+* Kappuccino
 * Junit
 * Mockito
 * Koin
@@ -28,3 +29,4 @@
 https://medium.com/@tonyowen/android-kotlin-coroutines-unit-test-16e984ba35b4
 https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews-and-RecyclerView
 https://newsapi.org/docs/endpoints/top-headlines
+https://medium.com/@heitorcolangelo/writing-clean-and-readable-espresso-tests-with-kappuccino-60cfb29d96a0
