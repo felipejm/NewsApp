@@ -1,5 +1,4 @@
-![alt text](https://travis-ci.org/felipejm/Desafio-PicPay-Android-iOS.svg?branch=develop "Build Status")
-[![Build Status](https://app.bitrise.io/app/9ec27af34da73df7/status.svg?token=_T8qfqjI25h-W4XtoQfr9g&branch=develop)](https://app.bitrise.io/app/9ec27af34da73df7)
+[![Build Status](https://travis-ci.org/felipejm/NewsApp.svg?branch=develop)](https://travis-ci.org/felipejm/NewsApp)
 
 # News App
  Simple app that use newsApi.org to fetch the last headlines in the current country.
