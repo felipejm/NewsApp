@@ -33,8 +33,6 @@ class ArticlesFeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configureRecyclerview()
 
-
-
         viewModel.liveData.observe(this) {
             when (it) {
                 is Command.ShowLoading -> showLoading()
