@@ -16,7 +16,7 @@ val articlesModule = module {
     viewModel { (article: Article) ->
         ArticleDetailViewModel(article)
     }
-    factory { RetrofitClient().setupRestClient(BuildConfig.ENDPOINT).create(ArticlesApi::class.java) }
+    factory { RetrofitClient(get(), get()).setupRestClient(BuildConfig.ENDPOINT).create(ArticlesApi::class.java) }
     factory { ArticlesRepository(get()) }
     factory { ArticlesUseCase(get()) }
 }

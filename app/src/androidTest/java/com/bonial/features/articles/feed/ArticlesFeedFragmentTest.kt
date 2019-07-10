@@ -4,6 +4,7 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.concretesolutions.kappuccino.actions.ClickActions.click
@@ -14,9 +15,10 @@ import com.bonial.R
 import com.bonial.RecyclerViewCheckSpanSize
 import com.bonial.features.articles.model.ArticlesApi
 import com.bonial.infra.retrofit.RetrofitClient
-import kotlinx.android.synthetic.main.view_error.view.*
+import com.jakewharton.espresso.OkHttp3IdlingResource
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,6 +26,8 @@ import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.mockito.Mockito.mock
+import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.OkHttpClient
 
 @RunWith(AndroidJUnit4::class)
 class ArticlesFeedFragmentTest : KoinTest {
@@ -34,8 +38,13 @@ class ArticlesFeedFragmentTest : KoinTest {
     private lateinit var mockNavController: NavController
 
     private val module = module {
+        factory<OkHttpClient>(override = true) {
+            val okhttpClient = OkHttpClient.Builder().build()
+            IdlingRegistry.getInstance().register(OkHttp3IdlingResource.create("OkHttp", okhttpClient))
+            okhttpClient
+        }
         single<ArticlesApi>(override = true) {
-            RetrofitClient().setupRestClient("http://localhost:$mockServerPort")
+            RetrofitClient(get(), get()).setupRestClient("http://localhost:$mockServerPort")
                 .create(ArticlesApi::class.java)
         }
     }
@@ -47,8 +56,13 @@ class ArticlesFeedFragmentTest : KoinTest {
         mockServer.start(mockServerPort)
     }
 
+    @After
+    fun tearDown(){
+        mockServer.shutdown()
+    }
+
     @Test
-    fun when_load_check_list_size() {
+    fun when_load_check_list_size() = runBlockingTest {
         mockServer.enqueue(ArticleRequestHelper.createSuccessResponse())
         launchFragment()
 
@@ -58,13 +72,12 @@ class ArticlesFeedFragmentTest : KoinTest {
     }
 
     @Test
-    fun when_load_should_show_error_view() {
+    fun when_load_should_show_error_view() = runBlockingTest {
         mockServer.enqueue(MockResponse().setResponseCode(500))
         launchFragment()
 
         notDisplayed {
             id(R.id.recycler_view)
-            id(R.id.progress_bar)
         }
 
         displayed {
@@ -73,7 +86,7 @@ class ArticlesFeedFragmentTest : KoinTest {
     }
 
     @Test
-    fun when_load_should_try_again() {
+    fun when_load_should_try_again() = runBlockingTest{
         mockServer.enqueue(MockResponse().setResponseCode(500))
         mockServer.enqueue(ArticleRequestHelper.createSuccessResponse())
         launchFragment()
@@ -88,7 +101,7 @@ class ArticlesFeedFragmentTest : KoinTest {
     }
 
     @Test
-    fun when_load_check_first_item_is_populated_correctly() {
+    fun when_load_check_first_item_is_populated_correctly() = runBlockingTest {
         mockServer.enqueue(ArticleRequestHelper.createSuccessResponse())
         launchFragment()
 
@@ -114,7 +127,7 @@ class ArticlesFeedFragmentTest : KoinTest {
     }
 
     @Test
-    fun when_scroll_to_end_should_load_more() {
+    fun when_scroll_to_end_should_load_more() = runBlockingTest {
         mockServer.enqueue(ArticleRequestHelper.createSuccessResponse())
         mockServer.enqueue(ArticleRequestHelper.createNextPageRequest())
         launchFragment()
@@ -129,7 +142,7 @@ class ArticlesFeedFragmentTest : KoinTest {
     }
 
     @Test
-    fun when_load_check_span_size() {
+    fun when_load_check_span_size() = runBlockingTest{
         mockServer.enqueue(ArticleRequestHelper.createSuccessResponse())
         launchFragment()
 

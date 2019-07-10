@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bonial.R
 import com.bonial.features.articles.model.Article
+import com.bonial.infra.GlideApp
 import com.bonial.infra.getRelativeTime
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_article_detail.*
@@ -45,7 +46,7 @@ class ArticleDetailFragment: Fragment(){
                 source.text = getString(R.string.source_placeholder, it.name)
             }
 
-            Glide.with(context).load(article.urlImage).into(image)
+            GlideApp.with(context).load(article.urlImage).into(image)
         }
     }
 }

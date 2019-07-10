@@ -33,20 +33,24 @@ class ArticlesFeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configureRecyclerview()
 
+
+
         viewModel.liveData.observe(this) {
-            when(it){
+            when (it) {
                 is Command.ShowLoading -> showLoading()
                 is Command.ShowErrorView -> showErrorView()
-                is Command.ShowArticles -> {
-                    hideLoading()
-                    adapter?.submitList(it.articles)
-                }
+                is Command.ShowArticles -> configureArticles(it)
             }
         }
 
         if (savedInstanceState == null) {
             viewModel.fetchArticles()
         }
+    }
+
+    private fun configureArticles(command: Command.ShowArticles) {
+        hideLoading()
+        adapter?.submitList(command.articles)
     }
 
     private fun configureRecyclerview() {
@@ -66,7 +70,7 @@ class ArticlesFeedFragment : Fragment() {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (adapter?.getViewType(position)) {
-                    ArticlesFeedAdapter.VIEW_TYPE.HEADLINE -> getSpanCount()
+                    ArticlesFeedAdapter.ViewType.HEADLINE -> getSpanCount()
                     else -> 1
                 }
             }

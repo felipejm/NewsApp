@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bonial.R
 import com.bonial.features.articles.model.Article
+import com.bonial.infra.GlideApp
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_news_item.view.*
 
@@ -16,7 +17,7 @@ class ArticlesFeedAdapter
     Diff()
 ) {
 
-    enum class VIEW_TYPE {
+    enum class ViewType {
         HEADLINE, SIMPLE
     }
 
@@ -33,16 +34,16 @@ class ArticlesFeedAdapter
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % 7 == 0) VIEW_TYPE.HEADLINE.ordinal else VIEW_TYPE.SIMPLE.ordinal
+        return if (position % 7 == 0) ViewType.HEADLINE.ordinal else ViewType.SIMPLE.ordinal
     }
 
-    fun getViewType(position: Int) = VIEW_TYPE.values()[getItemViewType(position)]
+    fun getViewType(position: Int) = ViewType.values()[getItemViewType(position)]
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(article: Article, viewType: VIEW_TYPE) {
+        fun bind(article: Article, viewType: ViewType) {
 
             when (viewType) {
-                VIEW_TYPE.HEADLINE -> {
+                ViewType.HEADLINE -> {
                     itemView.title.textSize = 18f
                     itemView.description.textSize = 14f
                 }
@@ -56,7 +57,7 @@ class ArticlesFeedAdapter
             itemView.title.text = article.title
             itemView.description.text = article.description
             article.source?.let { itemView.source.text = it.name }
-            Glide.with(itemView.context).load(article.urlImage).into(itemView.image)
+            GlideApp.with(itemView.context).load(article.urlImage).into(itemView.image)
         }
     }
 
